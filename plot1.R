@@ -11,7 +11,8 @@ hpc1$Date <- as.Date(hpc1$Date, format="%d/%m/%Y")
 
 
 ##make plot1
-hist(hpc1$Global_active_power, xlab = "Global Active Power (kilowatts)", col="red")
+hist(hpc1$Global_active_power, xlab = "Global Active Power (kilowatts)", 
+     col="red", main="Global Active Power")
 
 
 ##save png
