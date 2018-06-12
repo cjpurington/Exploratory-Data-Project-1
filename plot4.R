@@ -1,0 +1,34 @@
+## load data
+hpc <- read.csv("~/R projects/coursera/data/household_power_consumption.txt", 
+                header=T, sep=';', na.strings="?", nrows=2075259, check.names=F, 
+                stringsAsFactors=F, comment.char="", quote='\"')
+
+hpc1 <- subset(hpc, Date %in% c("1/2/2007","2/2/2007"))
+
+hpc1$Date <- as.Date(hpc1$Date, format="%d/%m/%Y")
+
+dt <- paste(as.Date(hpc1$Date), hpc1$Time)
+
+hpc1$dt <- as.POSIXct(dt)
+
+## make plot4
+par(mfrow=c(2,2), mar=c(4,4,2,1), oma=c(0,0,2,0))
+
+with(hpc1, {
+  plot(Global_active_power~dt, type="l", 
+       ylab="Global Active Power", xlab="")
+  plot(Voltage~dt, type="l", 
+       ylab="Voltage", xlab="datetime")
+  plot(Sub_metering_1~dt, type="l", 
+       ylab="Energy sub metering", xlab="")
+  lines(Sub_metering_2~dt,col='Red')
+  lines(Sub_metering_3~dt,col='Blue')
+  legend("topright", col=c("black", "red", "blue"), lty=1, lwd=2, bty="n",
+         legend=c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"))
+  plot(Global_reactive_power~dt, type="l", 
+       ylab="Global_reactive_power",xlab="datetime")
+})
+
+## save png
+dev.copy(png, file="plot4.png", height=480, width=800)
+dev.off()
